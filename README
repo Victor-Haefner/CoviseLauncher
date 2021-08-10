@@ -1,0 +1,8 @@
+1) Install WAMP Server
+	https://www.wampserver.com/en/
+	
+2) Execute setup batch, pass the correct www folder path!
+	setup.bat c:\wamp64\www
+
+3) Allow wamp to start covise
+	create a dummy user, maybe test1 and password qwertz123

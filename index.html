@@ -1,0 +1,61 @@
+<head>
+	<style>
+		body {
+			margin: 0;
+		}
+		
+		#head {
+			width: 100%;
+			padding: 10px;
+			display: flex;
+			align-items: center;
+		}
+		
+		#head > * {
+			margin: 10px;
+			padding: 10px;
+		}
+	</style>
+	
+	<script>
+		function getCookie(cname) {
+			let name = cname + "=";
+			let decodedCookie = decodeURIComponent(document.cookie);
+			let ca = decodedCookie.split(';');
+			for(let i = 0; i <ca.length; i++) {
+				let c = ca[i];
+				while (c.charAt(0) == ' ') {
+					c = c.substring(1);
+				}
+				if (c.indexOf(name) == 0) {
+					return c.substring(name.length, c.length);
+				}
+			}
+			return "";
+		}
+	
+		function onChangeConfigPath(input) {
+			document.cookie = "coviseConfigPath="+input.value;
+		}
+	
+		function startCover() {
+			var uri = "exec.php?cmd="+encodeURIComponent('C:\\Windows\\Notepad.exe');
+			//var uri = "exec.php?cmd="+encodeURIComponent('notepad');
+			var r = new XMLHttpRequest();
+			r.open( "GET", uri, false );
+			r.send( null );
+			console.log(r.responseText);
+		}
+	</script>
+</head>
+
+<body>
+	<div id='head'>
+		<button id='startb' onclick='startCover()'>Start OpenCOVER</button>
+		<label>Config path:</label><input id='configPath' onchange='onChangeConfigPath(this)' value='C:\'></input>
+	</div>
+	
+	<script>	
+		document.getElementById('configPath').value = getCookie('coviseConfigPath');
+	</script>
+</body>
