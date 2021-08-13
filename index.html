@@ -164,10 +164,10 @@
 		<button id='startb' onclick='startCover()'>Start OpenCOVER</button>
 		<button id='startb' onclick='stopCover()'>Stop OpenCOVER</button>
 	</div>
-	<div class='head'>
+	<!--div class='head'>
 		<label>Cover path:</label>
 		<input id='coverPath' onkeydown='onChangeCoverPath(this)' value='C:\'></input>
-	</div>
+	</div-->
 	
 	<div id="editor">
 		<div id="editor_lines"></div>
@@ -177,7 +177,7 @@
 	<script>	
 		setupEditor();
 		document.getElementById('configPath').value = getCookie('coviseConfigPath');
-		document.getElementById('coverPath').value = getCookie('coviseCoverPath');
+		//document.getElementById('coverPath').value = getCookie('coviseCoverPath');
 		readFile();
 	</script>
 </body>
