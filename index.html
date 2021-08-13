@@ -64,24 +64,42 @@
 			}
 			return "";
 		}
-	
-		function onChangeConfigPath(input) {
-			document.cookie = "coviseConfigPath="+input.value;
-			var uri = "exec.php?cmd="+encodeURIComponent('C:\\Windows\\Notepad.exe');
-			//var uri = "exec.php?cmd="+encodeURIComponent('notepad');
+		
+		function get(uri) {
 			var r = new XMLHttpRequest();
 			r.open( "GET", uri, false );
 			r.send( null );
-			console.log(r.responseText);
+			return r.responseText;
+		}
+		
+		function readFile() {
+			var path = document.getElementById('configPath').value;
+			console.log('readFile '+path);
+			var uri = "fetchFile.php?path="+encodeURIComponent(path);
+			var r = get(uri);
+			document.getElementById('editor_area').value = r;
+		}
+	
+		function onChangeConfigPath(input) {
+			if (event.key === 'Enter') {
+				document.cookie = "coviseConfigPath="+input.value;
+				readFile();       
+			}
+		}
+		
+		function saveScript() {
+			console.log('save script');
+			var path = document.getElementById('configPath').value;
+			var editor_area = document.getElementById('editor_area');
+			var data = editor_area.value;
+			var uri = "changeFile.php?path="+encodeURIComponent(path)+"&data="+encodeURIComponent(data);
+			var r = get(uri);
 		}
 	
 		function startCover() {
 			var uri = "exec.php?cmd="+encodeURIComponent('C:\\Windows\\Notepad.exe');
-			//var uri = "exec.php?cmd="+encodeURIComponent('notepad');
-			var r = new XMLHttpRequest();
-			r.open( "GET", uri, false );
-			r.send( null );
-			console.log(r.responseText);
+			var r = get(uri);
+			console.log(r);
 		}
 		
 		function setupEditor() {
@@ -108,11 +126,6 @@
 					e.preventDefault();
 					saveScript();
 				}
-
-				if (e.ctrlKey && (e.which == 69)) {
-					e.preventDefault();
-					executeScript();
-				}
 			});
 
 			window.onbeforeunload = function() {
@@ -126,7 +139,7 @@
 	<div id='head'>
 		<button id='startb' onclick='startCover()'>Start OpenCOVER</button>
 		<label>Config path:</label>
-		<input id='configPath' onchange='onChangeConfigPath(this)' value='C:\'></input>
+		<input id='configPath' onkeydown='onChangeConfigPath(this)' value='C:\'></input>
 	</div>
 	
 	<div id="editor">
@@ -137,5 +150,6 @@
 	<script>	
 		setupEditor();
 		document.getElementById('configPath').value = getCookie('coviseConfigPath');
+		readFile();
 	</script>
 </body>
