@@ -4,19 +4,23 @@
 			margin: 0;
 		}
 		
-		#head {
+		.head {
 			width: calc(100vw-20px);
 			padding: 10px;
 			display: flex;
 			align-items: center;
 		}
 		
-		#head > * {
+		.head > * {
 			margin: 10px;
 			padding: 10px;
 		}
 		
 		#configPath {
+			width: 50%;
+		}
+		
+		#coverPath {
 			width: 50%;
 		}
 		
@@ -79,10 +83,20 @@
 			var r = get(uri);
 			document.getElementById('editor_area').value = r;
 		}
+		
+		function setCookie(name, value) {
+			console.log("setCookie "+name+" "+value);
+			// expiration date necessary to make cookie persistent!
+			document.cookie = name+"="+value+"; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT";
+		}
+	
+		function onChangeCoverPath(input) {
+			if (event.key === 'Enter') setCookie("coviseCoverPath", input.value);
+		}
 	
 		function onChangeConfigPath(input) {
 			if (event.key === 'Enter') {
-				document.cookie = "coviseConfigPath="+input.value;
+				setCookie("coviseConfigPath", input.value);
 				readFile();       
 			}
 		}
@@ -97,7 +111,15 @@
 		}
 	
 		function startCover() {
-			var uri = "exec.php?cmd="+encodeURIComponent('C:\\Windows\\Notepad.exe');
+			//var uri = "exec.php?cmd="+encodeURIComponent('C:\\Windows\\Notepad.exe');
+			var path = document.getElementById('configPath').value;
+			var uri = "startCover.php?config="+encodeURIComponent(path);
+			var r = get(uri);
+			console.log(r);
+		}
+	
+		function stopCover() {
+			var uri = "stopCover.php";
 			var r = get(uri);
 			console.log(r);
 		}
@@ -136,10 +158,15 @@
 </head>
 
 <body>
-	<div id='head'>
-		<button id='startb' onclick='startCover()'>Start OpenCOVER</button>
+	<div class='head'>
 		<label>Config path:</label>
 		<input id='configPath' onkeydown='onChangeConfigPath(this)' value='C:\'></input>
+		<button id='startb' onclick='startCover()'>Start OpenCOVER</button>
+		<button id='startb' onclick='stopCover()'>Stop OpenCOVER</button>
+	</div>
+	<div class='head'>
+		<label>Cover path:</label>
+		<input id='coverPath' onkeydown='onChangeCoverPath(this)' value='C:\'></input>
 	</div>
 	
 	<div id="editor">
@@ -150,6 +177,7 @@
 	<script>	
 		setupEditor();
 		document.getElementById('configPath').value = getCookie('coviseConfigPath');
+		document.getElementById('coverPath').value = getCookie('coviseCoverPath');
 		readFile();
 	</script>
 </body>

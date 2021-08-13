@@ -6,3 +6,4 @@
 
 3) Allow wamp to start covise
 	create a dummy user, maybe test1 and password qwertz123
+	in admin cmd: net user NAME PASSWORD /add
