@@ -1,4 +1,5 @@
-set "PATH=%PATH%;D:\Program Files\COVISE\zebuopt\lib;D:\Program Files\COVISE\zebuopt\bin"
+set "covise=C:\Program Files\COVISE"
+set "PATH=%PATH%;%covise%\zebuopt\lib;%covise%\zebuopt\bin"
 set "COCONFIG=%1"
 echo "%COCONFIG%">> C:\\tmp\startCover-log.txt
-"D:\Program Files\COVISE\zebuopt\bin\Renderer\OpenCOVER.exe" %2
+"%covise%\zebuopt\bin\Renderer\OpenCOVER.exe" %2
