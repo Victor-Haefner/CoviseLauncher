@@ -76,6 +76,13 @@
 			return r.responseText;
 		}
 		
+		function post(uri, data) {
+			var r = new XMLHttpRequest();
+			r.open( "POST", uri, false );
+			r.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			r.send( data );
+		}
+		
 		function readFile() {
 			var path = document.getElementById('configPath').value;
 			console.log('readFile '+path);
@@ -106,8 +113,8 @@
 			var path = document.getElementById('configPath').value;
 			var editor_area = document.getElementById('editor_area');
 			var data = editor_area.value;
-			var uri = "changeFile.php?path="+encodeURIComponent(path)+"&data="+encodeURIComponent(data);
-			var r = get(uri);
+			var uri = "changeFile.php";
+			var r = post(uri, "path="+encodeURIComponent(path)+"&data="+data);
 		}
 	
 		function startCover() {
